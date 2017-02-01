@@ -8,6 +8,35 @@ namespace MvvmData
 {
     public class TrainingProductManager
     {
+        public TrainingProductManager()
+        {
+            ValidationErrors = new List<KeyValuePair<string, string>>();
+        }
+        public List<KeyValuePair<string,string>> ValidationErrors { get; set; }
+
+        public bool Validate(TrainingProduct entity)
+        {
+            ValidationErrors.Clear();
+            if (!string.IsNullOrEmpty(entity.ProductName))
+            {
+                if (entity.ProductName.ToLower() == entity.ProductName)
+                {
+                    ValidationErrors.Add(new KeyValuePair<string, string>("Productname", "ProductName must not be all lower case"));
+                }
+            }
+            return (ValidationErrors.Count == 0);
+        }
+        public bool Insert(TrainingProduct entity)
+        {
+            bool ret = false;
+            ret = Validate(entity);
+            if(ret)
+            {
+
+            }
+            return ret;
+        }
+
         public List<TrainingProduct> Get(TrainingProduct entity)
         {
             List<TrainingProduct> ret = new List<TrainingProduct>();

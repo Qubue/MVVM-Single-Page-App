@@ -20,7 +20,21 @@ namespace MVVM_Single_Page_App.Controllers
         [HttpPost]
         public ActionResult Index(TrainingProductViewModel vm)
         {
+            vm.isValid = ModelState.IsValid;
             vm.HandleRequest();
+
+            if(vm.isValid)
+            {
+                ModelState.Clear();
+            }
+            else
+            {
+                foreach(KeyValuePair<string,string> item in vm.ValidationErrors)
+                {
+                    ModelState.AddModelError(item.Key, item.Value);
+                }
+            }
+
             ModelState.Clear();
             return View(vm);
         }
